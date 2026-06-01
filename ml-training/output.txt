@@ -1,0 +1,315 @@
+﻿python : 2026-06-01 18:59:30,842 - INFO - 
+Au caractère Ligne:2 : 145
++ ... lyContinue; python live_inference_engine.py > output.txt 2>&1; Get-Co ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (2026-06-01 18:59:30,842 - INFO - :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+======================================================================
+2026-06-01 18:59:30,842 - INFO - \U0001f3af LIVE INFERENCE ENGINE
+2026-06-01 18:59:30,842 - INFO - ======================================================================
+
+2026-06-01 18:59:31,372 - INFO - \u2705 Loaded feature scaler
+2026-06-01 18:59:31,567 - INFO - \u2705 Loaded gradient_boosting
+2026-06-01 18:59:31,673 - INFO - \u2705 Loaded lightgbm
+2026-06-01 18:59:32,380 - INFO - \u2705 Loaded random_forest
+2026-06-01 18:59:32,430 - INFO - \u2705 Loaded xgboost
+2026-06-01 18:59:32,430 - INFO - \u2705 Loaded metadata (40 features)
+2026-06-01 18:59:32,430 - INFO - 
+======================================================================
+2026-06-01 18:59:32,430 - INFO - LIVE INFERENCE ON UPCOMING MATCHES
+2026-06-01 18:59:32,430 - INFO - ======================================================================
+
+2026-06-01 18:59:32,430 - INFO - 
+======================================================================
+2026-06-01 18:59:32,430 - INFO - LIVE FOOTBALL DATA FETCHER
+2026-06-01 18:59:32,430 - INFO - ======================================================================
+2026-06-01 18:59:32,430 - INFO - 
+\U0001f4e1 Fetching from football-data.org...
+2026-06-01 18:59:32,727 - WARNING -    \u26a0\ufe0f  Premier League: Status 400
+2026-06-01 18:59:33,004 - WARNING -    \u26a0\ufe0f  La Liga: Status 400
+2026-06-01 18:59:33,270 - WARNING -    \u26a0\ufe0f  Serie A: Status 400
+2026-06-01 18:59:33,556 - WARNING -    \u26a0\ufe0f  Ligue 1: Status 400
+2026-06-01 18:59:33,855 - WARNING -    \u26a0\ufe0f  Champions League: Status 400
+2026-06-01 18:59:34,143 - WARNING -    \u26a0\ufe0f  World Cup: Status 400
+2026-06-01 18:59:34,143 - INFO - 
+   \U0001f4ca Total matches found: 0
+2026-06-01 18:59:34,144 - INFO - 
+\u26a0\ufe0f  Limited real data - generating realistic upcoming matches for demo...
+2026-06-01 18:59:34,144 - INFO - 
+   Generating realistic match scenarios...
+2026-06-01 18:59:34,144 - INFO -    \u2705 Generated 18 demo matches
+2026-06-01 18:59:34,145 - INFO - 
+\U0001f4ca Match Statistics:
+2026-06-01 18:59:34,145 - INFO -    Total matches: 18
+2026-06-01 18:59:34,145 - INFO -    Upcoming: 18
+2026-06-01 18:59:34,146 - INFO -    Live: 0
+2026-06-01 18:59:34,146 - INFO -    Finished: 0
+2026-06-01 18:59:34,146 - INFO - 
+\U0001f3c6 By League:
+2026-06-01 18:59:34,146 - INFO -    ò Premier League: 3 matches
+2026-06-01 18:59:34,146 - INFO -    ò La Liga: 3 matches
+2026-06-01 18:59:34,146 - INFO -    ò Serie A: 3 matches
+2026-06-01 18:59:34,147 - INFO -    ò Ligue 1: 3 matches
+2026-06-01 18:59:34,147 - INFO -    ò Champions League: 3 matches
+2026-06-01 18:59:34,147 - INFO -    ò World Cup: 3 matches
+2026-06-01 18:59:34,149 - INFO - Making predictions on 12 upcoming matches...
+
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+2026-06-01 18:59:35,510 - INFO -   Manchester City      vs Liverpool            | Pred: DRAW         | Conf:  91.6%
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+2026-06-01 18:59:35,621 - INFO -   Barcelona            vs Real Madrid          | Pred: DRAW         | Conf:  90.8%
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+2026-06-01 18:59:35,731 - INFO -   Milan                vs Inter                | Pred: DRAW         | Conf:  91.7%
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+2026-06-01 18:59:35,838 - INFO -   PSG                  vs Lyon                 | Pred: DRAW         | Conf:  85.0%
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+2026-06-01 18:59:35,944 - INFO -   Bayern Munich        vs PSG                  | Pred: DRAW         | Conf:  89.8%
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+2026-06-01 18:59:36,049 - INFO -   France               vs England              | Pred: DRAW         | Conf:  91.3%
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+2026-06-01 18:59:36,157 - INFO -   Liverpool            vs Arsenal              | Pred: DRAW         | Conf:  91.6%
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+2026-06-01 18:59:36,259 - INFO -   Real Madrid          vs Atletico Madrid      | Pred: DRAW         | Conf:  91.7%
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+2026-06-01 18:59:36,368 - INFO -   Inter                vs Juventus             | Pred: DRAW         | Conf:  92.2%
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+2026-06-01 18:59:36,473 - INFO -   Lyon                 vs Marseille            | Pred: DRAW         | Conf:  91.5%
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+2026-06-01 18:59:36,579 - INFO -   PSG                  vs Manchester City      | Pred: DRAW         | Conf:  91.7%
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+[Parallel(n_jobs=16)]: Using backend ThreadingBackend with 16 concurrent workers.
+[Parallel(n_jobs=16)]: Done  18 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 168 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 418 tasks      | elapsed:    0.0s
+[Parallel(n_jobs=16)]: Done 500 out of 500 | elapsed:    0.0s finished
+2026-06-01 18:59:36,684 - INFO -   England              vs Germany              | Pred: DRAW         | Conf:  85.5%
+2026-06-01 18:59:36,684 - INFO - 
+\u2705 Generated 12 predictions
+
+2026-06-01 18:59:36,694 - INFO - \u2705 Saved predictions to predictions.json
+2026-06-01 18:59:36,694 - INFO - 
+======================================================================
+2026-06-01 18:59:36,694 - INFO - PREDICTION SUMMARY
+2026-06-01 18:59:36,694 - INFO - ======================================================================
+
+2026-06-01 18:59:36,694 - INFO - Home Wins:      0 (0.0%)
+2026-06-01 18:59:36,694 - INFO - Draws:          12 (100.0%)
+2026-06-01 18:59:36,694 - INFO - Away Wins:      0 (0.0%)
+2026-06-01 18:59:36,694 - INFO - Avg Confidence: 90.4%
+2026-06-01 18:59:36,694 - INFO - 
+======================================================================
+2026-06-01 18:59:36,694 - INFO - \u2705 Inference complete!
+2026-06-01 18:59:36,694 - INFO - ======================================================================
+

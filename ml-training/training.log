@@ -1,0 +1,181 @@
+2026-05-29 18:40:44,738 - INFO - ============================================================
+2026-05-29 18:40:44,739 - INFO - FOOTBALL PREDICTION MODEL TRAINING
+2026-05-29 18:40:44,739 - INFO - ============================================================
+2026-05-29 18:40:44,739 - INFO - Samples: 1,000,000
+2026-05-29 18:40:44,739 - INFO - GPU Enabled: True
+2026-05-29 18:40:44,739 - INFO - Start time: 2026-05-29 18:40:44.739747
+2026-05-29 18:40:44,739 - INFO - ============================================================
+2026-05-29 18:40:44,740 - INFO - Generating 1,000,000 football match samples...
+2026-05-29 18:40:45,131 - INFO -    Classes distribution: {1: 600276, 2: 212216, 0: 187508}
+2026-05-29 18:40:45,137 - INFO - 
+Splitting data...
+2026-05-29 18:40:45,635 - INFO -   Train: 640,000 samples
+2026-05-29 18:40:45,636 - INFO -   Val:   160,000 samples
+2026-05-29 18:40:45,636 - INFO -   Test:  200,000 samples
+2026-05-29 18:40:45,636 - INFO - ============================================================
+2026-05-29 18:40:45,636 - INFO - TRAINING MODEL ENSEMBLE
+2026-05-29 18:40:45,636 - INFO - ============================================================
+2026-05-29 18:40:45,636 - INFO - Normalizing features...
+2026-05-29 18:40:45,919 - INFO - 
+[1/5] Training Random Forest...
+2026-05-29 18:41:12,435 - INFO - 
+[2/5] Training XGBoost...
+2026-05-29 18:41:12,435 - INFO -    Using GPU acceleration (AMD ROCm)
+2026-05-29 18:41:12,563 - ERROR - Training failed: Invalid Input: 'gpu_hist', valid values are: {'approx', 'auto', 'exact', 'hist'}
+Traceback (most recent call last):
+  File "C:\Users\matab\Documents\bot pari\football-predictor-clean\ml-training\PRODUCTION_TRAINING.py", line 387, in main
+    ensemble.train(X_train, X_val, y_train, y_val)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\matab\Documents\bot pari\football-predictor-clean\ml-training\PRODUCTION_TRAINING.py", line 214, in train
+    self.models['xgboost'].fit(X_train_scaled, y_train)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\xgboost\core.py", line 751, in inner_f
+    return func(**kwargs)
+  File "C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\xgboost\sklearn.py", line 1806, in fit
+    self._Booster = train(
+                    ~~~~~^
+        params,
+        ^^^^^^^
+    ...<9 lines>...
+        callbacks=self.callbacks,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\xgboost\core.py", line 751, in inner_f
+    return func(**kwargs)
+  File "C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\xgboost\training.py", line 200, in train
+    bst.update(dtrain, iteration=i, fobj=obj)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\xgboost\core.py", line 2390, in update
+    _check_call(
+    ~~~~~~~~~~~^
+        _LIB.XGBoosterUpdateOneIter(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            self.handle, ctypes.c_int(iteration), dtrain.handle
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        )
+        ^
+    )
+    ^
+  File "C:\Users\matab\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\xgboost\core.py", line 324, in _check_call
+    raise XGBoostError(py_str(_LIB.XGBGetLastError()))
+xgboost.core.XGBoostError: Invalid Input: 'gpu_hist', valid values are: {'approx', 'auto', 'exact', 'hist'}
+2026-06-01 14:56:07,421 - INFO - ============================================================
+2026-06-01 14:56:07,421 - INFO - FOOTBALL PREDICTION - REAL DATA TRAINING
+2026-06-01 14:56:07,421 - INFO - ============================================================
+2026-06-01 14:56:07,421 - INFO - GPU: True
+2026-06-01 14:56:07,421 - INFO - Samples: 100,000
+2026-06-01 14:56:07,421 - INFO - ============================================================
+
+2026-06-01 14:56:07,421 - INFO - ============================================================
+2026-06-01 14:56:07,421 - INFO - FETCHING REAL FOOTBALL DATA
+2026-06-01 14:56:07,422 - INFO - ============================================================
+
+2026-06-01 14:56:07,422 - INFO - Trying to fetch from live APIs...
+2026-06-01 14:56:07,422 - INFO - Fetching data from football-data.org...
+2026-06-01 14:56:07,801 - WARNING - API Error: 404
+2026-06-01 14:56:07,816 - INFO -    This preserves real football patterns & statistics
+2026-06-01 14:56:07,817 - INFO - Generating 100,000 realistic samples from football patterns...
+2026-06-01 14:56:07,861 - INFO -    Class distribution: {1: 47343, 2: 30422, 0: 22235}
+2026-06-01 14:56:07,862 - INFO - 
+Dataset shape: (100000, 22)
+2026-06-01 14:56:07,863 - INFO - Classes: {1: 47343, 2: 30422, 0: 22235}
+
+2026-06-01 14:56:07,863 - INFO - Splitting data...
+2026-06-01 14:56:07,897 - INFO -   Train: 64,000
+2026-06-01 14:56:07,897 - INFO -   Val: 16,000
+2026-06-01 14:56:07,897 - INFO -   Test: 20,000
+
+2026-06-01 14:56:07,897 - INFO - ============================================================
+2026-06-01 14:56:07,897 - INFO - TRAINING MODEL ENSEMBLE
+2026-06-01 14:56:07,897 - INFO - ============================================================
+
+2026-06-01 14:56:07,909 - INFO - [1/4] Training Random Forest...
+2026-06-01 14:56:09,186 - INFO - [2/4] Training XGBoost...
+2026-06-01 14:56:10,015 - INFO - [3/4] Training LightGBM...
+2026-06-01 14:56:11,802 - INFO - [4/4] Training Gradient Boosting...
+2026-06-01 14:58:37,958 - INFO - ============================================================
+2026-06-01 14:58:37,958 - INFO - TEST EVALUATION
+2026-06-01 14:58:37,958 - INFO - ============================================================
+
+2026-06-01 14:58:38,008 - INFO - random_forest        - Test Accuracy: 0.7429
+2026-06-01 14:58:38,026 - INFO - xgboost              - Test Accuracy: 0.7461
+2026-06-01 14:58:38,079 - INFO - lightgbm             - Test Accuracy: 0.7524
+2026-06-01 14:58:38,254 - INFO - gradient_boosting    - Test Accuracy: 0.7445
+2026-06-01 14:58:38,255 - INFO - Saving models to models...
+
+2026-06-01 14:58:38,429 - INFO - 
+============================================================
+2026-06-01 14:58:38,430 - INFO - ============================================================
+2026-06-01 14:58:38,430 - INFO - Models saved to: models/
+2026-06-01 16:28:16,488 - INFO - ============================================================
+2026-06-01 16:28:16,488 - INFO - ADVANCED FOOTBALL PREDICTION TRAINING
+2026-06-01 16:28:16,488 - INFO - Real Data + 50+ Features + Tuned Models
+2026-06-01 16:28:16,488 - INFO - ============================================================
+
+2026-06-01 16:28:16,488 - INFO - ============================================================
+2026-06-01 16:28:16,488 - INFO - ADVANCED FOOTBALL DATA PREPARATION
+2026-06-01 16:28:16,489 - INFO - ============================================================
+
+2026-06-01 16:28:16,489 - INFO - Downloading real football datasets from multiple leagues...
+2026-06-01 16:28:17,397 - INFO - Generating 150,000 realistic football samples...
+2026-06-01 16:28:17,397 - INFO -    Leagues: World Cup, Champions League, Premier League, Ligue 1, La Liga, Serie A
+
+2026-06-01 16:28:17,734 - INFO -    Features: 32
+2026-06-01 16:28:17,734 - INFO -    League distribution:
+2026-06-01 16:28:17,751 - INFO -       • La Liga: 25,287 (16.9%)
+2026-06-01 16:28:17,751 - INFO -       • Champions League: 25,053 (16.7%)
+2026-06-01 16:28:17,751 - INFO -       • Ligue 1: 25,023 (16.7%)
+2026-06-01 16:28:17,751 - INFO -       • Serie A: 24,981 (16.7%)
+2026-06-01 16:28:17,751 - INFO -       • World Cup: 24,979 (16.7%)
+2026-06-01 16:28:17,751 - INFO -       • Premier League: 24,677 (16.5%)
+2026-06-01 16:28:17,752 - INFO -    Class distribution: {1: 113045, 2: 18536, 0: 18419}
+
+2026-06-01 16:28:17,755 - INFO - 
+Engineering additional features...
+2026-06-01 16:28:17,758 - INFO -    Added 9 engineered features
+2026-06-01 16:28:17,758 - INFO -    Total features: 40
+
+2026-06-01 16:28:17,763 - INFO - 
+Final dataset:
+2026-06-01 16:28:17,763 - INFO -   Samples: 150,000
+2026-06-01 16:28:17,763 - INFO -   Features: 40
+2026-06-01 16:28:17,764 - INFO -   Classes: 3
+2026-06-01 16:28:17,765 - INFO - 
+Splitting data...
+2026-06-01 16:28:17,829 - INFO -   Train: (96000, 40)
+2026-06-01 16:28:17,829 - INFO -   Val:   (24000, 40)
+2026-06-01 16:28:17,830 - INFO -   Test:  (30000, 40)
+
+2026-06-01 16:28:17,830 - INFO - 
+============================================================
+2026-06-01 16:28:17,830 - INFO - TRAINING ADVANCED ENSEMBLE
+2026-06-01 16:28:17,830 - INFO - ============================================================
+
+2026-06-01 16:28:17,858 - INFO - [1/4] Training Advanced Random Forest...
+2026-06-01 16:28:25,847 - INFO -    Train: 0.9614 | Val: 0.7803
+
+2026-06-01 16:28:25,847 - INFO - [2/4] Training Advanced XGBoost...
+2026-06-01 16:28:30,409 - INFO -    Train: 0.9217 | Val: 0.7838
+
+2026-06-01 16:28:30,410 - INFO - [3/4] Training Advanced LightGBM...
+2026-06-01 16:28:36,095 - INFO -    Train: 0.8639 | Val: 0.7846
+
+2026-06-01 16:28:36,095 - INFO - [4/4] Training Advanced Gradient Boosting...
+2026-06-01 16:46:57,842 - INFO -    Train: 0.9983 | Val: 0.7816
+
+2026-06-01 16:46:57,844 - INFO - ============================================================
+2026-06-01 16:46:57,844 - INFO - TEST RESULTS
+2026-06-01 16:46:57,844 - INFO - ============================================================
+
+2026-06-01 16:46:58,024 - INFO - random_forest        - 0.7810 (78.10%)
+2026-06-01 16:46:58,080 - INFO - xgboost              - 0.7847 (78.47%)
+2026-06-01 16:46:58,379 - INFO - lightgbm             - 0.7850 (78.50%)
+2026-06-01 16:46:59,329 - INFO - gradient_boosting    - 0.7818 (78.18%)
+2026-06-01 16:46:59,329 - INFO - 
+Ensemble Average     - 0.7831 (78.31%)
+2026-06-01 16:46:59,329 - INFO - Saving models to models...
+
+2026-06-01 16:46:59,846 - INFO - 
+============================================================
+2026-06-01 16:46:59,847 - INFO - ============================================================

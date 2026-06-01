@@ -1,0 +1,29 @@
+{
+  "feature_names": [
+    "shots_for",
+    "shots_on_target_for",
+    "goals_for",
+    "possession_pct",
+    "passes_completed",
+    "pass_accuracy",
+    "key_passes",
+    "crosses",
+    "tackles",
+    "interceptions",
+    "clearances",
+    "goals_against",
+    "elo_rating_home",
+    "elo_rating_away",
+    "form_last_5_home",
+    "form_last_5_away",
+    "clean_sheets_home",
+    "clean_sheets_away",
+    "h2h_wins_home",
+    "h2h_wins_away",
+    "rest_days_home",
+    "rest_days_away"
+  ],
+  "n_features": 22,
+  "timestamp": "2026-06-01T14:58:38.428437",
+  "data_source": "Real Football API + Realistic Generation"
+}

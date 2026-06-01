@@ -1,0 +1,198 @@
+{
+  "timestamp": "2026-06-01T19:02:14.912691",
+  "total_predictions": 12,
+  "predictions": [
+    {
+      "status": "success",
+      "home_team": "Manchester City",
+      "away_team": "Liverpool",
+      "league": "Premier League",
+      "date": "2026-06-03 10:02:12.512347",
+      "prediction": "DRAW",
+      "confidence": 87.95105328447737,
+      "ensemble_vote": 1,
+      "individual_predictions": {
+        "gradient_boosting": 1,
+        "lightgbm": 1,
+        "random_forest": 1,
+        "xgboost": 1
+      }
+    },
+    {
+      "status": "success",
+      "home_team": "Barcelona",
+      "away_team": "Real Madrid",
+      "league": "La Liga",
+      "date": "2026-06-03 10:02:12.512347",
+      "prediction": "DRAW",
+      "confidence": 91.0832463921856,
+      "ensemble_vote": 1,
+      "individual_predictions": {
+        "gradient_boosting": 1,
+        "lightgbm": 1,
+        "random_forest": 1,
+        "xgboost": 1
+      }
+    },
+    {
+      "status": "success",
+      "home_team": "Milan",
+      "away_team": "Inter",
+      "league": "Serie A",
+      "date": "2026-06-03 10:02:12.512347",
+      "prediction": "DRAW",
+      "confidence": 85.46546740636663,
+      "ensemble_vote": 1,
+      "individual_predictions": {
+        "gradient_boosting": 1,
+        "lightgbm": 1,
+        "random_forest": 1,
+        "xgboost": 1
+      }
+    },
+    {
+      "status": "success",
+      "home_team": "PSG",
+      "away_team": "Lyon",
+      "league": "Ligue 1",
+      "date": "2026-06-03 10:02:12.512347",
+      "prediction": "DRAW",
+      "confidence": 91.98335373279954,
+      "ensemble_vote": 1,
+      "individual_predictions": {
+        "gradient_boosting": 1,
+        "lightgbm": 1,
+        "random_forest": 1,
+        "xgboost": 1
+      }
+    },
+    {
+      "status": "success",
+      "home_team": "Bayern Munich",
+      "away_team": "PSG",
+      "league": "Champions League",
+      "date": "2026-06-03 10:02:12.512347",
+      "prediction": "DRAW",
+      "confidence": 91.94401303324054,
+      "ensemble_vote": 1,
+      "individual_predictions": {
+        "gradient_boosting": 1,
+        "lightgbm": 1,
+        "random_forest": 1,
+        "xgboost": 1
+      }
+    },
+    {
+      "status": "success",
+      "home_team": "France",
+      "away_team": "England",
+      "league": "World Cup",
+      "date": "2026-06-03 10:02:12.512347",
+      "prediction": "DRAW",
+      "confidence": 91.82925088638437,
+      "ensemble_vote": 1,
+      "individual_predictions": {
+        "gradient_boosting": 1,
+        "lightgbm": 1,
+        "random_forest": 1,
+        "xgboost": 1
+      }
+    },
+    {
+      "status": "success",
+      "home_team": "Liverpool",
+      "away_team": "Arsenal",
+      "league": "Premier League",
+      "date": "2026-06-04 10:02:12.512347",
+      "prediction": "DRAW",
+      "confidence": 91.85426467979339,
+      "ensemble_vote": 1,
+      "individual_predictions": {
+        "gradient_boosting": 1,
+        "lightgbm": 1,
+        "random_forest": 1,
+        "xgboost": 1
+      }
+    },
+    {
+      "status": "success",
+      "home_team": "Real Madrid",
+      "away_team": "Atletico Madrid",
+      "league": "La Liga",
+      "date": "2026-06-04 10:02:12.512347",
+      "prediction": "DRAW",
+      "confidence": 87.84886345361093,
+      "ensemble_vote": 1,
+      "individual_predictions": {
+        "gradient_boosting": 1,
+        "lightgbm": 1,
+        "random_forest": 1,
+        "xgboost": 1
+      }
+    },
+    {
+      "status": "success",
+      "home_team": "Inter",
+      "away_team": "Juventus",
+      "league": "Serie A",
+      "date": "2026-06-04 10:02:12.512347",
+      "prediction": "DRAW",
+      "confidence": 89.96607047111196,
+      "ensemble_vote": 1,
+      "individual_predictions": {
+        "gradient_boosting": 1,
+        "lightgbm": 1,
+        "random_forest": 1,
+        "xgboost": 1
+      }
+    },
+    {
+      "status": "success",
+      "home_team": "Lyon",
+      "away_team": "Marseille",
+      "league": "Ligue 1",
+      "date": "2026-06-04 10:02:12.512347",
+      "prediction": "DRAW",
+      "confidence": 91.76844563700654,
+      "ensemble_vote": 1,
+      "individual_predictions": {
+        "gradient_boosting": 1,
+        "lightgbm": 1,
+        "random_forest": 1,
+        "xgboost": 1
+      }
+    },
+    {
+      "status": "success",
+      "home_team": "PSG",
+      "away_team": "Manchester City",
+      "league": "Champions League",
+      "date": "2026-06-04 10:02:12.512347",
+      "prediction": "DRAW",
+      "confidence": 91.96006064006511,
+      "ensemble_vote": 1,
+      "individual_predictions": {
+        "gradient_boosting": 1,
+        "lightgbm": 1,
+        "random_forest": 1,
+        "xgboost": 1
+      }
+    },
+    {
+      "status": "success",
+      "home_team": "England",
+      "away_team": "Germany",
+      "league": "World Cup",
+      "date": "2026-06-04 10:02:12.512347",
+      "prediction": "DRAW",
+      "confidence": 91.98571181557652,
+      "ensemble_vote": 1,
+      "individual_predictions": {
+        "gradient_boosting": 1,
+        "lightgbm": 1,
+        "random_forest": 1,
+        "xgboost": 1
+      }
+    }
+  ]
+}
