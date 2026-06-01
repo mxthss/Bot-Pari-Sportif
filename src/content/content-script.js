@@ -1,100 +1,117 @@
 /**
- * Content Script - Injected into webpage
- * Detects football matches and extracts team information
- * Communicates with service worker for predictions
+ * 🌐 CONTENT SCRIPT - Injecte les boutons "Analyser" sur les matchs
  */
 
-console.log('[Content Script] Loaded');
+console.log('⚽ Football Predictor Content Script - Chargé');
 
-// Cache to avoid duplicate processing
-const processedMatches = new Set();
-let predictionWidgets = new Map();
-
-/**
- * Initialize content script
- */
-function initialize() {
-  console.log('[Content Script] Initializing match detection...');
-  
-  detectAndParseMatches();
-  
-  // Watch for dynamic content changes
-  observeDOMChanges();
+// Attendre que le DOM soit prêt
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initContentScript);
+} else {
+    initContentScript();
 }
 
 /**
- * Observer for dynamic DOM changes (SPA/AJAX loaded matches)
+ * Initialise le content script
  */
-function observeDOMChanges() {
-  const observer = new MutationObserver((mutations) => {
-    for (let mutation of mutations) {
-      if (mutation.type === 'childList') {
-        // Check for new match elements
-        detectAndParseMatches();
-      }
-    }
-  });
-
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    attributeFilter: ['class', 'data-match-id', 'id']
-  });
-}
-
-/**
- * Detect and parse football matches on the page
- */
-function detectAndParseMatches() {
-  // Try common patterns
-  const matches = document.querySelectorAll('[data-match-id], .match-row, .event-item, .fixture');
-  
-  matches.forEach(matchElement => {
-    const matchId = matchElement.getAttribute('data-match-id') || matchElement.id;
+async function initContentScript() {
+    console.log('🚀 Initialisation...');
     
-    if (matchId && !processedMatches.has(matchId)) {
-      processedMatches.add(matchId);
-      
-      const matchData = {
-        id: matchId,
-        homeTeam: extractTeamName(matchElement, 'home'),
-        awayTeam: extractTeamName(matchElement, 'away'),
-        timestamp: new Date().toISOString()
-      };
-      
-      // Send to service worker
-      chrome.runtime.sendMessage({
-        type: 'MATCH_DETECTED',
-        data: matchData
-      }, (response) => {
-        if (response?.success) {
-          console.log('[Content Script] Match sent for prediction:', matchData);
-        }
-      });
-    }
-  });
+    // Petit délai pour que les matchs se chargent
+    setTimeout(() => {
+        injectAnalysisButtons();
+    }, 1000);
+    
+    // Ré-injecter si le DOM change (matchs chargés dynamiquement)
+    const observer = new MutationObserver(() => {
+        injectAnalysisButtons();
+    });
+    
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: false
+    });
 }
 
 /**
- * Extract team name from match element
+ * Injecte les boutons "⚽ ANALYSER" sous chaque match
  */
-function extractTeamName(element, position) {
-  const selectors = {
-    home: ['.home-team', '.team-home', '[data-team="home"]', '.team:first-child'],
-    away: ['.away-team', '.team-away', '[data-team="away"]', '.team:last-child']
-  };
-  
-  for (let selector of selectors[position]) {
-    const teamElement = element.querySelector(selector);
-    if (teamElement) {
-      return teamElement.textContent.trim();
-    }
-  }
-  
-  return 'Unknown';
+function injectAnalysisButtons() {
+    const site = SiteDetector.detectCurrentSite();
+    const matches = SiteDetector.extractMatches();
+    
+    console.log(`✅ ${matches.length} matchs trouvés sur ${site}`);
+    
+    matches.forEach((match) => {
+        // Vérifier que le bouton n'existe pas déjà
+        if (match.element.querySelector('.football-predictor-btn')) {
+            return;
+        }
+        
+        // Créer le bouton
+        const button = document.createElement('button');
+        button.className = 'football-predictor-btn';
+        button.innerHTML = '⚽ ANALYSER';
+        button.style.cssText = `
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 16px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        `;
+        
+        button.onmouseover = () => {
+            button.style.background = 'linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)';
+            button.style.boxShadow = '0 6px 16px rgba(59, 130, 246, 0.5)';
+        };
+        
+        button.onmouseout = () => {
+            button.style.background = 'linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)';
+            button.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+        };
+        
+        // Quand on clique
+        button.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            analyzeMatch(match);
+        };
+        
+        // Injecter après l'élément du match
+        match.element.appendChild(button);
+    });
 }
 
-// Start detection when page loads
-window.addEventListener('load', initialize);
-document.addEventListener('DOMContentLoaded', initialize);
+/**
+ * Quand user clique sur "Analyser"
+ */
+async function analyzeMatch(match) {
+    console.log('📊 Analyse en cours:', match.homeTeam, 'vs', match.awayTeam);
+    
+    // Envoyer un message au background script
+    chrome.runtime.sendMessage({
+        action: 'analyzeMatch',
+        homeTeam: match.homeTeam,
+        awayTeam: match.awayTeam,
+        site: match.site
+    }, (response) => {
+        if (response && response.success) {
+            console.log('✅ Analyse reçue:', response.prediction);
+            
+            // Montrer la popup
+            chrome.runtime.sendMessage({
+                action: 'openPopup',
+                analysisResult: response
+            });
+        } else {
+            console.error('❌ Erreur:', response?.error);
+        }
+    });
+}

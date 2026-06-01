@@ -1,0 +1,31 @@
+# AMD GPU optimized requirements
+# For ROCm 5.7+ with 9070XT
+
+# Core dependencies
+numpy>=1.24.0
+pandas>=1.5.0
+scipy>=1.10.0
+scikit-learn>=1.3.0
+
+# ML with GPU support
+xgboost>=2.0.0
+lightgbm>=4.0.0
+joblib>=1.3.0
+
+# PyTorch with ROCm (install separately with specific index-url)
+# pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm5.7
+
+# TensorFlow with ROCm support (ROCm 5.7+)
+tensorflow[and-cuda]>=2.13.0
+
+# ONNX export
+onnx>=1.14.0
+onnxmltools>=1.12.0
+onnxruntime-gpu>=1.16.0
+
+# Utilities
+tqdm>=4.65.0
+pyyaml>=6.0
+
+# Optional: For better GPU memory management
+GPUtil>=1.4.0

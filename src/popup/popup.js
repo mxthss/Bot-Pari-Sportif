@@ -1,304 +1,158 @@
 /**
- * ⚽ Football Predictor - Popup UI
- * Displays live predictions when extension icon is clicked
+ * 🎯 POPUP JS - Affiche les analyses et l'historique
  */
 
-// Load predictions when popup opens
+// Charger quand la popup s'ouvre
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log('🚀 Popup initialized');
+    console.log('📱 Popup ouverte');
     
-    // Setup filter buttons
-    setupFilterButtons();
+    // Vérifier s'il y a une analyse en cours
+    const urlParams = new URLSearchParams(window.location.search);
+    const analysisResult = sessionStorage.getItem('currentAnalysis');
     
-    // Load predictions
-    await loadPredictions();
+    if (analysisResult) {
+        showAnalysisResult(JSON.parse(analysisResult));
+        sessionStorage.removeItem('currentAnalysis');
+    } else {
+        loadHistory();
+    }
     
-    // Setup refresh button
-    document.getElementById('refreshBtn').addEventListener('click', async (e) => {
-        e.target.style.animation = 'spin 0.6s ease-in-out';
-        await loadPredictions();
-        setTimeout(() => {
-            e.target.style.animation = 'none';
-        }, 600);
-    });
+    // Bouton pour revenir à l'historique
+    document.getElementById('backBtn')?.addEventListener('click', loadHistory);
 });
 
 /**
- * Load predictions from predictions.json or fetch from API
+ * Afficher le résultat d'une analyse
  */
-async function loadPredictions() {
-    try {
-        const container = document.getElementById('matchesContainer');
-        container.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Chargement des prédictions...</p><small>Veuillez patienter...</small></div>';
+function showAnalysisResult(result) {
+    const container = document.getElementById('matchesContainer');
+    
+    const html = `
+        <div class="analysis-result">
+            <div class="result-header">
+                <h2>${result.details?.homeTeam || 'Équipe 1'} vs ${result.details?.awayTeam || 'Équipe 2'}</h2>
+                <small>${new Date(result.details?.date).toLocaleString('fr-FR')}</small>
+            </div>
+            
+            <div class="result-box">
+                <div class="prediction-large">
+                    <div class="pred-label">PRÉDICTION</div>
+                    <div class="pred-badge ${result.prediction.toLowerCase()}">
+                        ${getPredictionText(result.prediction)}
+                    </div>
+                </div>
+                
+                <div class="confidence-large">
+                    <div class="conf-label">CONFIANCE</div>
+                    <div class="conf-value">${Math.round(result.confidence)}%</div>
+                    <div class="conf-bar">
+                        <div class="conf-fill" style="width: ${result.confidence}%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-details">
+                <h3>📊 Détails</h3>
+                <p>${result.details?.analysis || 'Analyse basée sur les données live'}</p>
+            </div>
+            
+            <button class="btn-back" id="backBtn">← Retour à l'historique</button>
+        </div>
+    `;
+    
+    container.innerHTML = html;
+}
+
+/**
+ * Charger et afficher l'historique
+ */
+async function loadHistory() {
+    console.log('📜 Chargement historique...');
+    
+    const container = document.getElementById('matchesContainer');
+    
+    chrome.storage.local.get(['analysis_history'], (result) => {
+        const history = result.analysis_history || [];
         
-        // Try to fetch predictions from storage or API
-        let predictions = await getPredictionsData();
-        
-        if (!predictions || predictions.length === 0) {
+        if (history.length === 0) {
             container.innerHTML = `
                 <div class="empty-state">
-                    <p>📊 Aucune prédiction disponible</p>
-                    <small>Cliquez sur le bouton 🔄 pour charger les prédictions</small>
+                    <p>📊 Aucune analyse encore</p>
+                    <small>Clique sur "⚽ ANALYSER" sur un site de pari pour commencer!</small>
                 </div>
             `;
             return;
         }
         
-        // Render predictions
-        renderMatches(predictions);
+        // Afficher les analyses
+        let html = '<div class="history-list">';
         
-        // Update stats
-        updateStats(predictions);
+        history.forEach((analysis, idx) => {
+            const date = new Date(analysis.date);
+            const confidence = Math.round(analysis.confidence);
+            
+            html += `
+                <div class="history-item" onclick="showHistoryDetail(${idx})">
+                    <div class="item-header">
+                        <strong>${analysis.homeTeam} vs ${analysis.awayTeam}</strong>
+                        <small>${date.toLocaleDateString('fr-FR')} ${date.toLocaleTimeString('fr-FR')}</small>
+                    </div>
+                    
+                    <div class="item-footer">
+                        <span class="badge-${analysis.prediction.toLowerCase()}">
+                            ${getPredictionText(analysis.prediction)}
+                        </span>
+                        <span class="confidence">${confidence}%</span>
+                    </div>
+                </div>
+            `;
+        });
         
-    } catch (error) {
-        console.error('Error loading predictions:', error);
-        document.getElementById('matchesContainer').innerHTML = `
-            <div class="empty-state">
-                <p>❌ Erreur de chargement</p>
-                <small>${error.message}</small>
+        html += '</div>';
+        container.innerHTML = html;
+        
+        // Ajouter le compteur
+        const statsHtml = `
+            <div class="stats-header">
+                📊 ${history.length} analyses
             </div>
         `;
-    }
+        document.querySelector('.stats-panel').innerHTML = statsHtml;
+    });
 }
 
 /**
- * Get predictions data from various sources
+ * Afficher un détail d'analyse
  */
-async function getPredictionsData() {
-    try {
-        // Try to fetch from Chrome storage
-        const stored = await new Promise(resolve => {
-            chrome.storage.local.get(['predictions'], (result) => {
-                resolve(result.predictions);
+function showHistoryDetail(index) {
+    chrome.storage.local.get(['analysis_history'], (result) => {
+        const history = result.analysis_history || [];
+        if (history[index]) {
+            showAnalysisResult({
+                ...history[index],
+                prediction: history[index].prediction
             });
-        });
-        
-        if (stored && stored.length > 0) {
-            return stored;
         }
-        
-        // Try to fetch from local file
-        try {
-            const response = await fetch('predictions.json');
-            if (response.ok) {
-                const data = await response.json();
-                return data.predictions || [];
-            }
-        } catch (e) {
-            console.log('predictions.json not found');
-        }
-        
-        // Return demo data for testing
-        return generateDemoData();
-        
-    } catch (error) {
-        console.error('Error getting predictions:', error);
-        return generateDemoData();
-    }
-}
-
-/**
- * Generate demo predictions for testing
- */
-function generateDemoData() {
-    const demoMatches = [
-        {
-            home_team: 'Manchester City',
-            away_team: 'Liverpool',
-            league: 'Premier League',
-            date: new Date(Date.now() + 24*60*60*1000).toISOString(),
-            prediction: 'HOME_WIN',
-            confidence: 84.2
-        },
-        {
-            home_team: 'Barcelona',
-            away_team: 'Real Madrid',
-            league: 'La Liga',
-            date: new Date(Date.now() + 48*60*60*1000).toISOString(),
-            prediction: 'DRAW',
-            confidence: 79.5
-        },
-        {
-            home_team: 'Milan',
-            away_team: 'Inter',
-            league: 'Serie A',
-            date: new Date(Date.now() + 72*60*60*1000).toISOString(),
-            prediction: 'AWAY_WIN',
-            confidence: 77.3
-        },
-        {
-            home_team: 'PSG',
-            away_team: 'Lyon',
-            league: 'Ligue 1',
-            date: new Date(Date.now() + 12*60*60*1000).toISOString(),
-            prediction: 'HOME_WIN',
-            confidence: 85.0
-        },
-    ];
-    
-    return demoMatches;
-}
-
-/**
- * Render matches to UI
- */
-function renderMatches(predictions) {
-    const container = document.getElementById('matchesContainer');
-    const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
-    
-    // Filter predictions
-    let filtered = predictions;
-    if (activeFilter === 'home') {
-        filtered = predictions.filter(p => p.prediction === 'HOME_WIN');
-    } else if (activeFilter === 'draw') {
-        filtered = predictions.filter(p => p.prediction === 'DRAW');
-    } else if (activeFilter === 'away') {
-        filtered = predictions.filter(p => p.prediction === 'AWAY_WIN');
-    }
-    
-    if (filtered.length === 0) {
-        container.innerHTML = `
-            <div class="empty-state">
-                <p>🔍 Aucun match trouvé</p>
-                <small>Essayez un autre filtre</small>
-            </div>
-        `;
-        return;
-    }
-    
-    // Render cards
-    container.innerHTML = filtered.map((match, idx) => createMatchCard(match, idx)).join('');
-    
-    // Add click handlers
-    document.querySelectorAll('.match-card').forEach(card => {
-        card.addEventListener('click', () => showMatchDetails(card));
     });
 }
 
 /**
- * Create match card HTML
+ * Convertir prédiction en texte
  */
-function createMatchCard(match, idx) {
-    const predictionBadge = getPredictionBadge(match.prediction);
-    const timeStr = new Date(match.date).toLocaleString('fr-FR', {
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-    
-    const confidencePercent = match.confidence ? Math.round(match.confidence) : 75;
-    
-    return `
-        <div class="match-card" data-index="${idx}">
-            <div class="match-header">
-                <span class="match-league">${match.league || 'Match'}</span>
-                <span class="match-time">📅 ${timeStr}</span>
-            </div>
-            
-            <div class="match-teams">
-                <div class="team">
-                    <div class="team-name">${match.home_team || 'Domicile'}</div>
-                </div>
-                <div class="vs-divider">vs</div>
-                <div class="team">
-                    <div class="team-name">${match.away_team || 'Extérieur'}</div>
-                </div>
-            </div>
-            
-            <div class="prediction-box">
-                <div class="prediction-row">
-                    <span class="prediction-label">Prédiction</span>
-                    <span class="prediction-result">
-                        ${predictionBadge}
-                    </span>
-                </div>
-                <div class="prediction-row">
-                    <span class="prediction-label">Confiance</span>
-                    <span class="prediction-result">
-                        <span class="prediction-value">${confidencePercent}%</span>
-                        <div class="confidence-bar">
-                            <div class="confidence-fill" style="width: ${confidencePercent}%"></div>
-                        </div>
-                    </span>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-/**
- * Get prediction badge HTML
- */
-function getPredictionBadge(prediction) {
-    const badges = {
-        'HOME_WIN': '<span class="badge badge-home-win">🏠 Victoire Domicile</span>',
-        'DRAW': '<span class="badge badge-draw">🤝 Match Nul</span>',
-        'AWAY_WIN': '<span class="badge badge-away-win">✈️ Victoire Extérieur</span>'
+function getPredictionText(pred) {
+    const map = {
+        'HOME_WIN': '🏠 Victoire Domicile',
+        'DRAW': '🤝 Match Nul',
+        'AWAY_WIN': '✈️ Victoire Extérieur'
     };
-    
-    return badges[prediction] || '<span class="badge">Inconnu</span>';
+    return map[pred] || pred;
 }
 
 /**
- * Show match details
- */
-function showMatchDetails(card) {
-    // Could show expanded view or navigate to betting site
-    const idx = card.dataset.index;
-    console.log('Match clicked:', idx);
-}
-
-/**
- * Update statistics
- */
-function updateStats(predictions) {
-    document.getElementById('matchCount').textContent = predictions.length;
-    
-    const avgConfidence = predictions.reduce((sum, p) => sum + (p.confidence || 0), 0) / predictions.length;
-    document.getElementById('avgConfidence').textContent = Math.round(avgConfidence) + '%';
-    
-    const now = new Date();
-    document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('fr-FR', {
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-}
-
-/**
- * Setup filter buttons
- */
-function setupFilterButtons() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', async () => {
-            // Remove active class from all
-            filterBtns.forEach(b => b.classList.remove('active'));
-            
-            // Add active class to clicked
-            btn.classList.add('active');
-            
-            // Reload matches with new filter
-            const predictions = await getPredictionsData();
-            renderMatches(predictions);
-        });
-    });
-}
-
-/**
- * Auto-refresh every 10 minutes
- */
-setInterval(() => {
-    loadPredictions();
-}, 10 * 60 * 1000);
-
-/**
- * Listen for messages from background script
+ * Écouter les messages du background
  */
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === 'updatePredictions') {
-        loadPredictions();
-        sendResponse({ status: 'updated' });
+    if (request.action === 'showAnalysis') {
+        showAnalysisResult(request.data);
     }
 });

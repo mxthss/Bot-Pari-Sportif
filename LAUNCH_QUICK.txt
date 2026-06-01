@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ╔══════════════════════════════════════════════════════════════════════════════╗
 ║                  ADVANCED MULTI-LEAGUE TRAINING - QUICK START                ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
@@ -88,3 +89,95 @@
   • Check training.log for detailed progress
 
 ═══════════════════════════════════════════════════════════════════════════════
+=======
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                  ADVANCED MULTI-LEAGUE TRAINING - QUICK START                ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📊 LEAGUES COVERED (6 Major Competitions)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ✅ Coupe du Monde (FIFA World Cup)
+  ✅ Ligue des Champions (Champions League)
+  ✅ Premier League (English)
+  ✅ Ligue 1 (French)
+  ✅ La Liga (Spanish)
+  ✅ Serie A (Italian)
+
+🎯 DATA STATS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  📈 Total Samples: 150,000+
+  🔢 Features: 50+
+  🎓 Expected Accuracy: 80-85%+
+  ⚙️ Ensemble: 4 tuned models
+  ⏱️ Training Time: 15-30 minutes
+
+🚀 HOW TO RUN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  OPTION 1 (Easiest):
+  Double-click: C:\Users\matab\Documents\bot pari\football-predictor-clean\
+                ml-training\RUN_ADVANCED.bat
+
+  OPTION 2 (PowerShell):
+  cd "C:\Users\matab\Documents\bot pari\football-predictor-clean\ml-training"
+  python PRODUCTION_TRAINING_ADVANCED.py --gpu
+
+  OPTION 3 (Python only):
+  python PRODUCTION_TRAINING_ADVANCED.py --gpu
+
+⏱️ WHAT HAPPENS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  1. Downloads real match data from 6 leagues (if available)
+  2. Generates 150k+ realistic samples if downloads incomplete
+  3. Engineers 50+ features (shots, possession, ELO, form, etc.)
+  4. Trains 4 models: Random Forest, XGBoost, LightGBM, Gradient Boosting
+  5. Reports test accuracy (target: 82%+)
+  6. Saves models to models/ folder
+
+✅ AFTER TRAINING COMPLETES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Step 1 - Deploy models:
+  python deploy_simple.py
+
+  Step 2 - Load extension in Chrome:
+  1. chrome://extensions/
+  2. Enable Developer Mode (top right)
+  3. Load unpacked → C:\Users\matab\Documents\bot pari\football-predictor-clean
+
+  Step 3 - Test:
+  • Go to betting site
+  • Click extension
+  • See predictions on matches
+
+📋 FILES CREATED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ✅ PRODUCTION_TRAINING_ADVANCED.py  - Main training script
+  ✅ RUN_ADVANCED.bat                 - Quick launcher
+  ✅ ADVANCED_TRAINING_GUIDE.md       - Full documentation
+  ✅ models/                          - Trained models (output)
+  ✅ training.log                     - Detailed logs
+
+🎯 TARGET RESULTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  random_forest:       ~82% accuracy
+  xgboost:            ~84% accuracy
+  lightgbm:           ~83% accuracy
+  gradient_boosting:  ~82% accuracy
+  ───────────────────────────────────
+  ENSEMBLE AVERAGE:   ~82-83% accuracy
+
+🎬 EXAMPLE COMMAND
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  python PRODUCTION_TRAINING_ADVANCED.py --gpu
+
+📝 NOTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  • GPU recommended but not required
+  • CPU fallback available (slower but works)
+  • First run may be slow if downloading data
+  • All models are ensemble-based (more accurate than single model)
+  • Check training.log for detailed progress
+
+═══════════════════════════════════════════════════════════════════════════════
+>>>>>>> 00d665a2125b3aa234785064306c6f56dac17eb4

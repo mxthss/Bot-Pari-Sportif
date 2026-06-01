@@ -63,8 +63,8 @@ async function handleAnalyzeMatch(request, sendResponse) {
  */
 async function callPythonAnalysis(homeTeam, awayTeam) {
     try {
-        // Essayer sur localhost:5000 (serveur Flask)
-        const response = await fetch('http://localhost:5000/analyze', {
+        // API Render
+        const response = await fetch('https://bot-pari-sportif.onrender.com/analyze', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

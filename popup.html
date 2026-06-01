@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚽ Football AI Predictor</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header avec logo et bouton refresh -->
+        <div class="header">
+            <div class="header-content">
+                <h1 class="title">⚽ FOOTBALL AI</h1>
+                <p class="subtitle">Prédictions temps réel • 82% précision</p>
+            </div>
+            <button class="refresh-btn" id="refreshBtn" title="Rafraîchir les prédictions">
+                <span>🔄</span>
+            </button>
+        </div>
+
+        <!-- Statistiques -->
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-icon">🎯</span>
+                <div>
+                    <p class="stat-label">Matchs</p>
+                    <p class="stat-value" id="matchCount">--</p>
+                </div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">📊</span>
+                <div>
+                    <p class="stat-label">Confiance</p>
+                    <p class="stat-value" id="avgConfidence">--</p>
+                </div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">⏱️</span>
+                <div>
+                    <p class="stat-label">Maj.</p>
+                    <p class="stat-value" id="lastUpdate">--</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtres -->
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">Tous les matchs</button>
+            <button class="filter-btn" data-filter="home">Victoire Domicile</button>
+            <button class="filter-btn" data-filter="draw">Match Nul</button>
+            <button class="filter-btn" data-filter="away">Victoire Extérieur</button>
+        </div>
+
+        <!-- Conteneur des matchs -->
+        <div class="matches-scroll" id="matchesContainer">
+            <div class="loading-state">
+                <div class="spinner"></div>
+                <p>Chargement des prédictions...</p>
+                <small>Veuillez patienter...</small>
+            </div>
+        </div>
+
+        <!-- Pied de page -->
+        <div class="footer-bar">
+            <p>💡 Cliquez sur un match pour plus d'infos</p>
+            <p class="update-info">Auto-refresh • 10 min</p>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

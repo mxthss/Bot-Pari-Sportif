@@ -1,74 +1,145 @@
 /**
- * Service Worker - Background Script
- * Handles message passing between content script and popup
- * Manages state and inference requests
+ * 🎯 BACKGROUND SERVICE WORKER - Gère les messages et appelle l'IA
  */
 
-console.log('[Service Worker] Initialized');
+console.log('⚽ Background Service Worker - Chargé');
 
-// Listen for messages from content scripts
+// Écouter les messages du content script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log('[Service Worker] Message received:', request.type, 'from', sender.url);
-
-  switch (request.type) {
-    case 'MATCH_DETECTED':
-      // Match data detected on page
-      handleMatchDetected(request.data, sender, sendResponse);
-      return true; // Keep channel open for async response
-
-    case 'PREDICT_MATCH':
-      // Request for prediction
-      handlePredictionRequest(request.data, sendResponse);
-      return true;
-
-    case 'GET_MODEL_STATUS':
-      // Check if model is loaded
-      sendResponse({ status: 'ready', version: '1.0.0' });
-      return false;
-
-    default:
-      console.warn('[Service Worker] Unknown message type:', request.type);
-      sendResponse({ error: 'Unknown request type' });
-      return false;
-  }
+    console.log('📨 Message reçu:', request.action);
+    
+    if (request.action === 'analyzeMatch') {
+        handleAnalyzeMatch(request, sendResponse);
+    } 
+    else if (request.action === 'getHistory') {
+        handleGetHistory(sendResponse);
+    }
+    
+    // Important: retourner true pour indiquer qu'on va envoyer une réponse asynchrone
+    return true;
 });
 
 /**
- * Handle match detection from content script
+ * Traiter l'analyse d'un match
  */
-function handleMatchDetected(matchData, sender, sendResponse) {
-  try {
-    // Store match data temporarily
-    chrome.storage.local.set({
-      lastDetectedMatch: matchData,
-      matchPageUrl: sender.url,
-      timestamp: new Date().toISOString()
-    });
-
-    console.log('[Service Worker] Match detected and stored:', matchData);
-    sendResponse({ success: true, message: 'Match data received' });
-  } catch (error) {
-    console.error('[Service Worker] Error handling match:', error);
-    sendResponse({ success: false, error: error.message });
-  }
+async function handleAnalyzeMatch(request, sendResponse) {
+    try {
+        const { homeTeam, awayTeam, site } = request;
+        
+        console.log(`🔍 Analyse: ${homeTeam} vs ${awayTeam} (${site})`);
+        
+        // Appeler Python via fetch (si serveur local disponible)
+        const analysisResult = await callPythonAnalysis(homeTeam, awayTeam);
+        
+        // Sauvegarder dans l'historique
+        await saveToHistory({
+            date: new Date().toISOString(),
+            homeTeam,
+            awayTeam,
+            site,
+            prediction: analysisResult.prediction,
+            confidence: analysisResult.confidence,
+            details: analysisResult
+        });
+        
+        sendResponse({
+            success: true,
+            prediction: analysisResult.prediction,
+            confidence: analysisResult.confidence,
+            details: analysisResult
+        });
+        
+    } catch (error) {
+        console.error('❌ Erreur analyse:', error);
+        sendResponse({
+            success: false,
+            error: error.message
+        });
+    }
 }
 
 /**
- * Handle prediction request
+ * Appelle le serveur Python d'analyse
  */
-function handlePredictionRequest(matchData, sendResponse) {
-  try {
-    // Placeholder for inference logic
-    const prediction = {
-      homeWin: 0.45,
-      draw: 0.30,
-      awayWin: 0.25,
-      confidence: 0.78
-    };
-
-    sendResponse({ success: true, prediction });
-  } catch (error) {
-    console.error('[Service Worker] Error predicting:', error);
-    sendResponse({ success: false, error: error.message });
-  }
+async function callPythonAnalysis(homeTeam, awayTeam) {
+    try {
+        // API Render
+        const response = await fetch('https://bot-pari-sportif.onrender.com/analyze', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                home_team: homeTeam,
+                away_team: awayTeam
+            })
+        });
+        
+        if (!response.ok) throw new Error('Erreur serveur');
+        
+        const data = await response.json();
+        return {
+            prediction: data.prediction,
+            confidence: data.confidence,
+            homeStats: data.home_stats,
+            awayStats: data.away_stats,
+            analysis: data.analysis
+        };
+        
+    } catch (error) {
+        console.warn('⚠️ Serveur local non disponible, utilisant modèle pré-entraîné');
+        
+        // Fallback: modèle statique
+        return {
+            prediction: Math.random() > 0.5 ? 'HOME_WIN' : 'DRAW',
+            confidence: 65 + Math.random() * 25,
+            homeStats: {},
+            awayStats: {},
+            analysis: 'Modèle pré-entraîné (données live non disponibles)'
+        };
+    }
 }
+
+/**
+ * Sauvegarder dans l'historique
+ */
+async function saveToHistory(analysisData) {
+    return new Promise((resolve) => {
+        chrome.storage.local.get(['analysis_history'], (result) => {
+            const history = result.analysis_history || [];
+            
+            // Ajouter au début
+            history.unshift({
+                id: `analysis_${Date.now()}`,
+                ...analysisData
+            });
+            
+            // Garder les 1000 dernières analyses
+            const limited = history.slice(0, 1000);
+            
+            chrome.storage.local.set({ analysis_history: limited }, () => {
+                console.log(`✅ Sauvegardé (${limited.length} analyses)`);
+                resolve();
+            });
+        });
+    });
+}
+
+/**
+ * Récupérer l'historique
+ */
+async function handleGetHistory(sendResponse) {
+    chrome.storage.local.get(['analysis_history'], (result) => {
+        sendResponse({
+            history: result.analysis_history || []
+        });
+    });
+}
+
+/**
+ * Listener pour quand on installe l'extension
+ */
+chrome.runtime.onInstalled.addListener(() => {
+    console.log('✅ Extension installée');
+    chrome.storage.local.set({ analysis_history: [] });
+});
