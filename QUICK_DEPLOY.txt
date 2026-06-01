@@ -1,0 +1,43 @@
+╔══════════════════════════════════════════════════════════════════╗
+║     ⚽ DEPLOY CHROME EXTENSION - 5 STEPS TO LAUNCH             ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🎯 STEP 1: OPEN CHROME
+  Open Google Chrome browser
+
+🎯 STEP 2: GO TO EXTENSIONS
+  Type: chrome://extensions/
+  Press Enter
+
+🎯 STEP 3: ENABLE DEVELOPER MODE
+  TOP RIGHT corner → Toggle "Developer mode" → Turn ON (blue)
+
+🎯 STEP 4: CLICK LOAD UNPACKED
+  TOP LEFT → Blue button "Load unpacked" → Click
+
+🎯 STEP 5: SELECT FOLDER
+  Navigate to:
+  C:\Users\matab\Documents\bot pari\football-predictor-clean
+  Click "Select Folder"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ EXTENSION LOADED!
+
+Now click the blue ⚽ icon in top right corner
+
+YOU'LL SEE:
+  ⚽ FOOTBALL AI
+  Prédictions temps réel • 82% précision
+  
+  [Matchs: 12] [Confiance: 90%]
+  
+  Match cards with predictions
+  Confidence bars
+  Filter buttons
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✨ THAT'S IT! You're done! ✨
+
+═══════════════════════════════════════════════════════════════════
