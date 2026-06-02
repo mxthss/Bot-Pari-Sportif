@@ -60,27 +60,32 @@ async function loadMatches() {
         <div class="loading-state">
             <div class="spinner"></div>
             <p>Chargement des matchs...</p>
-            <small>Récupération depuis l'API football...</small>
+            <small>Récupération depuis ESPN...</small>
         </div>
     `;
     
     try {
-        // Récupérer les matchs d'aujourd'hui
-        const today = new Date().toISOString().split('T')[0];
-        const apiKey = 'afc56201394e4b5fb06a97b5b97d4848'; // Free tier key
-        
-        const response = await fetch(`https://api.football-data.org/v4/matches?status=SCHEDULED`, {
-            headers: { 'X-Auth-Token': apiKey }
-        });
+        // Utiliser ESPN API (gratuit, pas de clé)
+        const response = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/events`);
         
         if (!response.ok) {
             throw new Error(`API Error: ${response.status}`);
         }
         
         const data = await response.json();
-        allMatches = data.matches || [];
         
-        console.log(`✅ ${allMatches.length} matchs chargés`);
+        // Extraire les matchs
+        allMatches = (data.events || []).map((event, idx) => ({
+            id: `match_${idx}`,
+            homeTeam: event.competitions?.[0]?.competitors?.[0]?.team?.displayName || 'Team 1',
+            awayTeam: event.competitions?.[0]?.competitors?.[1]?.team?.displayName || 'Team 2',
+            utcDate: event.date,
+            competition: {
+                name: event.competitions?.[0]?.league?.name || 'Ligue'
+            }
+        }));
+        
+        console.log(`✅ ${allMatches.length} matchs chargés depuis ESPN`);
         
         // Filtrer pour les 24 prochaines heures
         const now = new Date();
@@ -97,7 +102,7 @@ async function loadMatches() {
             container.innerHTML = `
                 <div class="loading-state">
                     <p>❌ Aucun match trouvé</p>
-                    <small>Pas de matchs programmés aujourd'hui</small>
+                    <small>Pas de matchs programmés dans les 24h</small>
                 </div>
             `;
             return;
