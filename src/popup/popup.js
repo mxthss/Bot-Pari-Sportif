@@ -52,7 +52,7 @@ async function displayCurrentSite() {
 }
 
 /**
- * Charge les matchs de l'API football-data.org
+ * Charge les matchs de l'API ou affiche formulaire manuel
  */
 async function loadMatches() {
     const container = document.getElementById('matchesContainer');
@@ -65,8 +65,10 @@ async function loadMatches() {
     `;
     
     try {
-        // Utiliser ESPN API (gratuit, pas de clé)
-        const response = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/events`);
+        // Essayer ESPN API (gratuit, pas de clé)
+        const response = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/events`, {
+            timeout: 5000
+        });
         
         if (!response.ok) {
             throw new Error(`API Error: ${response.status}`);
@@ -99,26 +101,92 @@ async function loadMatches() {
         console.log(`📊 ${allMatches.length} matchs dans les 24h`);
         
         if (allMatches.length === 0) {
-            container.innerHTML = `
-                <div class="loading-state">
-                    <p>❌ Aucun match trouvé</p>
-                    <small>Pas de matchs programmés dans les 24h</small>
-                </div>
-            `;
+            showManualInputForm();
             return;
         }
         
         displayMatches();
         
     } catch (error) {
-        console.error('❌ Erreur chargement API:', error);
-        container.innerHTML = `
-            <div class="loading-state">
-                <p>❌ Erreur lors du chargement</p>
-                <small>${error.message}</small>
-            </div>
-        `;
+        console.error('❌ Erreur API:', error);
+        showManualInputForm();
     }
+}
+
+/**
+ * Affiche un formulaire pour entrer manuellement les équipes
+ */
+function showManualInputForm() {
+    const container = document.getElementById('matchesContainer');
+    
+    container.innerHTML = `
+        <div style="padding: 16px;">
+            <h3 style="margin: 0 0 12px 0; font-size: 14px;">Analyser un match</h3>
+            <p style="margin: 0 0 12px 0; font-size: 12px; color: var(--text-dim);">Pas de matchs trouvés via l'API. Tapez le nom des équipes:</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <input 
+                    type="text" 
+                    id="homeTeamInput" 
+                    placeholder="Équipe à domicile" 
+                    style="
+                        background: rgba(31, 41, 55, 0.8);
+                        border: 1px solid rgba(59, 130, 246, 0.3);
+                        color: var(--text);
+                        padding: 8px 10px;
+                        border-radius: 4px;
+                        font-size: 12px;
+                    "
+                />
+                
+                <input 
+                    type="text" 
+                    id="awayTeamInput" 
+                    placeholder="Équipe en déplacement" 
+                    style="
+                        background: rgba(31, 41, 55, 0.8);
+                        border: 1px solid rgba(59, 130, 246, 0.3);
+                        color: var(--text);
+                        padding: 8px 10px;
+                        border-radius: 4px;
+                        font-size: 12px;
+                    "
+                />
+                
+                <button 
+                    onclick="analyzeManualMatch()" 
+                    style="
+                        background: var(--accent);
+                        border: none;
+                        color: white;
+                        padding: 10px;
+                        border-radius: 4px;
+                        font-weight: 700;
+                        cursor: pointer;
+                        font-size: 12px;
+                        transition: all 0.2s;
+                    "
+                >
+                    Analyser
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * Analyse un match entré manuellement
+ */
+async function analyzeManualMatch() {
+    const homeTeam = document.getElementById('homeTeamInput').value.trim();
+    const awayTeam = document.getElementById('awayTeamInput').value.trim();
+    
+    if (!homeTeam || !awayTeam) {
+        alert('Veuillez entrer les deux équipes!');
+        return;
+    }
+    
+    analyzeMatch(homeTeam, awayTeam);
 }
 
 /**
