@@ -30,65 +30,108 @@ class SiteDetector {
         // BET365
         if (site === 'bet365') {
             matches = this.parseBet365();
+            if (matches.length === 0) matches = this.parseGeneric();
         }
         // UNIBET
         else if (site === 'unibet') {
             matches = this.parseUnibet();
+            if (matches.length === 0) matches = this.parseGeneric();
         }
         // BWIN
         else if (site === 'bwin') {
             matches = this.parseBwin();
+            if (matches.length === 0) matches = this.parseGeneric();
         }
         // BETFAIR
         else if (site === 'betfair') {
             matches = this.parseBetfair();
+            if (matches.length === 0) matches = this.parseGeneric();
         }
-        // FLASHSCORE (universel, fonctionne partout)
+        // FALLBACK: universel pour tous les autres
         else {
             matches = this.parseGeneric();
         }
         
+        console.log(`📊 Matchs trouvés après parsing: ${matches.length}`);
         return matches;
     }
 
     /**
-     * Parser universel - cherche patterns communs
+     * Parser universel AMÉLIORÉ - cherche TOUS les patterns possibles
      */
     static parseGeneric() {
         const matches = [];
+        const processedTexts = new Set();
         
-        // Cherche les patterns de matchs
-        const possibleMatches = document.querySelectorAll(
-            '[class*="match"], [class*="event"], [class*="game"], ' +
-            '[data-test*="match"], [data-test*="event"]'
-        );
-
-        possibleMatches.forEach((element, idx) => {
-            const text = element.innerText || '';
+        // Chercher les éléments avec texte visibilité normal
+        const allElements = document.querySelectorAll('body *');
+        
+        allElements.forEach((element) => {
+            // Skip invisibles
+            if (['SCRIPT', 'STYLE', 'NOSCRIPT', 'META', 'LINK'].includes(element.tagName)) {
+                return;
+            }
             
-            // Pattern: "Equipe1 vs Equipe2" ou "Equipe1 - Equipe2"
-            const vsMatch = text.match(/(.+?)\s+(?:vs|vs\.|versus|vs\s|vs\n|-)\s+(.+?)(?:\n|$)/i);
+            const style = window.getComputedStyle(element);
+            if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
+                return;
+            }
             
-            if (vsMatch && vsMatch[1] && vsMatch[2]) {
-                const homeTeam = vsMatch[1].trim();
-                const awayTeam = vsMatch[2].trim();
-                
-                // Validation basique
-                if (homeTeam.length > 2 && awayTeam.length > 2 && 
-                    homeTeam.length < 50 && awayTeam.length < 50) {
-                    
-                    matches.push({
-                        id: `match_${idx}`,
-                        homeTeam: homeTeam.replace(/[0-9:\n\t]/g, '').trim(),
-                        awayTeam: awayTeam.replace(/[0-9:\n\t]/g, '').trim(),
-                        site: 'generic',
-                        element: element
-                    });
+            // Chercher SEULEMENT le texte direct de cet élément
+            let text = '';
+            for (let node of element.childNodes) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    text += node.textContent + ' ';
                 }
             }
+            
+            text = text.trim();
+            if (!text || text.length < 5 || text.length > 500) return;
+            
+            // Patterns pour trouver les matchs
+            const patterns = [
+                /(.+?)\s+-\s+(.+?)(?:\s|$)/,  // "Team1 - Team2"
+                /(.+?)\s+(?:vs|v\.s\.)\s+(.+?)(?:\s|$)/i  // "Team1 vs Team2"
+            ];
+            
+            patterns.forEach(pattern => {
+                const match = text.match(pattern);
+                if (!match) return;
+                
+                let homeTeam = match[1].trim();
+                let awayTeam = match[2].trim();
+                
+                // Nettoyer les noms
+                homeTeam = homeTeam.replace(/\d+$/g, '').trim();
+                awayTeam = awayTeam.replace(/^\d+/g, '').trim();
+                
+                const combined = `${homeTeam}|${awayTeam}`;
+                
+                // Validation stricte
+                if (
+                    homeTeam.length > 2 && homeTeam.length < 50 &&
+                    awayTeam.length > 2 && awayTeam.length < 50 &&
+                    !processedTexts.has(combined) &&
+                    homeTeam !== awayTeam &&
+                    !/^\d+$/.test(homeTeam) &&
+                    !/^\d+$/.test(awayTeam)
+                ) {
+                    processedTexts.add(combined);
+                    console.log(`✅ Match trouvé: "${homeTeam}" vs "${awayTeam}"`);
+                    matches.push({
+                        id: `generic_${matches.length}`,
+                        homeTeam: homeTeam,
+                        awayTeam: awayTeam,
+                        site: 'generic',
+                        element: element,
+                        parentElement: element.parentElement
+                    });
+                }
+            });
         });
-
-        return matches;
+        
+        console.log(`🔍 Parser générique trouvé: ${matches.length} matchs`);
+        return matches.slice(0, 50);
     }
 
     /**
@@ -117,22 +160,30 @@ class SiteDetector {
     }
 
     /**
-     * Parser UNIBET
+     * Parser UNIBET - amélioré avec plusieurs stratégies
      */
     static parseUnibet() {
         const matches = [];
         
-        document.querySelectorAll('[class*="EventRow"]').forEach((el, idx) => {
-            const teamElements = el.querySelectorAll('[class*="TeamName"]');
+        // Stratégie 1: Chercher par classe contenant "event" ou "match"
+        document.querySelectorAll('[class*="event"], [class*="match"], [class*="row"]').forEach((el, idx) => {
+            const text = el.innerText || '';
             
-            if (teamElements.length >= 2) {
-                matches.push({
-                    id: `unibet_${idx}`,
-                    homeTeam: teamElements[0].innerText.trim(),
-                    awayTeam: teamElements[1].innerText.trim(),
-                    site: 'unibet',
-                    element: el
-                });
+            // Pattern: "Team1 vs Team2"
+            const vsMatch = text.match(/(.+?)\s+(?:vs|v\.s\.|versus)\s+(.+?)(?:\n|$)/i);
+            if (vsMatch && vsMatch[1] && vsMatch[2]) {
+                const homeTeam = vsMatch[1].trim().split('\n')[0];
+                const awayTeam = vsMatch[2].trim().split('\n')[0];
+                
+                if (homeTeam.length > 2 && awayTeam.length < 50 && awayTeam.length > 2) {
+                    matches.push({
+                        id: `unibet_${idx}`,
+                        homeTeam: homeTeam,
+                        awayTeam: awayTeam,
+                        site: 'unibet',
+                        element: el
+                    });
+                }
             }
         });
 

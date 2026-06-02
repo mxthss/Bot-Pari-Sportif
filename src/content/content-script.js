@@ -43,49 +43,91 @@ function injectAnalysisButtons() {
     
     console.log(`✅ ${matches.length} matchs trouvés sur ${site}`);
     
-    matches.forEach((match) => {
+    // Ajouter du CSS pour les boutons
+    if (!document.getElementById('football-predictor-styles')) {
+        const style = document.createElement('style');
+        style.id = 'football-predictor-styles';
+        style.textContent = `
+            .football-predictor-btn {
+                background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%) !important;
+                color: white !important;
+                border: none !important;
+                border-radius: 6px !important;
+                padding: 8px 14px !important;
+                font-weight: 700 !important;
+                font-size: 13px !important;
+                cursor: pointer !important;
+                margin: 8px 0 !important;
+                transition: all 0.2s !important;
+                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
+                display: inline-block !important;
+                z-index: 99999 !important;
+                position: relative !important;
+            }
+            
+            .football-predictor-btn:hover {
+                background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%) !important;
+                box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5) !important;
+                transform: translateY(-2px) !important;
+            }
+            
+            .football-predictor-btn:active {
+                transform: translateY(0) !important;
+            }
+            
+            .football-predictor-wrapper {
+                margin-top: 8px !important;
+                margin-bottom: 8px !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    matches.forEach((match, idx) => {
         // Vérifier que le bouton n'existe pas déjà
         if (match.element.querySelector('.football-predictor-btn')) {
             return;
         }
         
+        // Créer un wrapper pour le bouton
+        const wrapper = document.createElement('div');
+        wrapper.className = 'football-predictor-wrapper';
+        
         // Créer le bouton
         const button = document.createElement('button');
         button.className = 'football-predictor-btn';
-        button.innerHTML = '⚽ ANALYSER';
-        button.style.cssText = `
-            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 10px 16px;
-            font-weight: 700;
-            font-size: 12px;
-            cursor: pointer;
-            margin-top: 8px;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        `;
+        button.type = 'button';
+        button.textContent = '⚽ ANALYSER';
         
+        // Event listeners
         button.onmouseover = () => {
-            button.style.background = 'linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)';
-            button.style.boxShadow = '0 6px 16px rgba(59, 130, 246, 0.5)';
+            button.style.transform = 'translateY(-2px)';
         };
         
         button.onmouseout = () => {
-            button.style.background = 'linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)';
-            button.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+            button.style.transform = 'translateY(0)';
         };
         
-        // Quand on clique
         button.onclick = (e) => {
             e.preventDefault();
             e.stopPropagation();
             analyzeMatch(match);
         };
         
-        // Injecter après l'élément du match
-        match.element.appendChild(button);
+        // Ajouter le bouton au wrapper
+        wrapper.appendChild(button);
+        
+        // Injecter APRÈS l'élément du match
+        try {
+            if (match.element.parentElement) {
+                match.element.parentElement.insertBefore(wrapper, match.element.nextSibling);
+            } else {
+                match.element.appendChild(wrapper);
+            }
+            console.log(`✅ Bouton injecté pour ${match.homeTeam} vs ${match.awayTeam}`);
+        } catch (e) {
+            console.error('❌ Erreur injection bouton:', e);
+        }
     });
 }
 
@@ -109,9 +151,11 @@ async function analyzeMatch(match) {
             chrome.runtime.sendMessage({
                 action: 'openPopup',
                 analysisResult: response
+            }, () => {
+                // Callback vide - le popup s'ouvrira
             });
         } else {
-            console.error('❌ Erreur:', response?.error);
+            console.error('❌ Erreur:', response ? response.error : 'Unknown error');
         }
     });
 }
