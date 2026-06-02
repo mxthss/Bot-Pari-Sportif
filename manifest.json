@@ -32,7 +32,7 @@
         "*://*.transfermarkt.com/*",
         "<all_urls>"
       ],
-      "js": ["src/content/site-detector.js", "src/content/content-script.js"],
+      "js": ["src/content/content-script-minimal.js"],
       "css": ["src/content/styles.css"],
       "run_at": "document_end"
     }

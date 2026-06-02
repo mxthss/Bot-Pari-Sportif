@@ -1,38 +1,15 @@
 /**
- * 🌐 CONTENT SCRIPT - Injecte les boutons "Analyser" sur les matchs
+ * 🌐 CONTENT SCRIPT - Désactivé (on utilise la popup API instead)
+ * 
+ * NOTE: Cet script a causé des crashes Chrome à cause d'une boucle MutationObserver infinie.
+ * On utilise maintenant la popup avec ESPN API — pas besoin d'injecter des boutons!
  */
 
-console.log('⚽ Football Predictor Content Script - Chargé');
+console.log('⚽ Content Script - Désactivé (utiliser la popup à la place)');
 
-// Attendre que le DOM soit prêt
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initContentScript);
-} else {
-    initContentScript();
-}
+// Script désactivé intentionnellement pour éviter les crashes
+// La popup récupère les matchs via l'API ESPN
 
-/**
- * Initialise le content script
- */
-async function initContentScript() {
-    console.log('🚀 Initialisation...');
-    
-    // Petit délai pour que les matchs se chargent
-    setTimeout(() => {
-        injectAnalysisButtons();
-    }, 1000);
-    
-    // Ré-injecter si le DOM change (matchs chargés dynamiquement)
-    const observer = new MutationObserver(() => {
-        injectAnalysisButtons();
-    });
-    
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: false
-    });
-}
 
 /**
  * Injecte les boutons "⚽ ANALYSER" sous chaque match
